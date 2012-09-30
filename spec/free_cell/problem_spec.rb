@@ -54,16 +54,15 @@ describe FreeCell::Problem do
       end
     end
 
-    # context 'when the board only contains an ace' do
-    #   let(:ace) { FreeCell::Card.new('A', :hearts) }
-    #   subject(:pr) {
-    #     FreeCell::Problem.new(:columns => [ace])
-    #   }
+    context 'when the board only contains an ace' do
+      let(:ace) { FreeCell::Card.new('A', :hearts) }
+      subject(:pr) {
+        FreeCell::Problem.new(:columns => [[ace]])
+      }
 
-    #   it 'moves the ace to the foundation'  # do
-    #   #   pr.should_receive(:current_card).and_return(ace)
-    #   #   pr.actions.should == [:move_to_foundation]
-    #   # end
-    # end
+      it 'moves the ace to the foundation' do
+        pr.actions.map { |a| a.key }.should == ["Col[AH]->Fo[H]"]
+      end
+    end
   end
 end

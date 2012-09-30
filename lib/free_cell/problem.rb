@@ -1,6 +1,6 @@
 module FreeCell
   class Problem
-    attr_reader :free_cells, :foundations
+    attr_reader :free_cells, :foundations, :columns
 
     def initialize(opts)
       @columns = opts.fetch :columns
@@ -55,13 +55,21 @@ module FreeCell
       actions = []
 
       # free cell to foundation
-      free_cells.each do |free_cell|
+      @free_cells.each do |free_cell|
         next if free_cell.nil?
         m = FreeToFoundationMove.new(self, free_cell)
         actions << m if m.valid?
       end
 
-      # last exposed card to foundation
+      # column to foundation
+      @columns.each do |column|
+        card = column.last
+        next if card.nil?
+
+        m = ColumnToFoundationMove.new(self, card)
+        actions << m if m.valid?
+      end
+
       # column to column
       # column to free
 
