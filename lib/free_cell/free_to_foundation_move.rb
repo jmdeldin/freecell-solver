@@ -31,6 +31,11 @@ module FreeCell
       @executed = true
     end
 
+    def key
+      s = @card.suit.to_s.upcase[0].chr
+      "Fr[#{@card}]->Fo[#{s}]"
+    end
+
     def to_s
       return 'no move made' unless @executed
 
