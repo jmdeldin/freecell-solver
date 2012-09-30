@@ -44,6 +44,10 @@ class FreeCell::Card
     @face + @suit.to_s.upcase[0].chr
   end
 
+  def sequentially_larger_than?(other)
+    @value - other.value == 1
+  end
+
   def self.from_string(str)
     fail "Cannot make card from empty string" if str.to_s.length != 2
 

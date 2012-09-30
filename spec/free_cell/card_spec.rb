@@ -61,4 +61,24 @@ describe Card do
   end
 
   its(:to_s) { should == "AH" }
+
+  describe '#sequentially_larger_than?' do
+    it 'returns true for 3 vs 2' do
+      c1 = Card.from_string('3H')
+      c2 = Card.from_string('2H')
+      c1.sequentially_larger_than?(c2).should be_true
+    end
+
+    it 'returns true for 2 vs A' do
+      c1 = Card.from_string('2S')
+      c2 = Card.from_string('AS')
+      c1.sequentially_larger_than?(c2).should be_true
+    end
+
+    it 'returns false for T vs J' do
+      c1 = Card.from_string('TS')
+      c2 = Card.from_string('JS')
+      c1.sequentially_larger_than?(c2).should be_false
+    end
+  end
 end
