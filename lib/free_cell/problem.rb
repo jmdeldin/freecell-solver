@@ -61,17 +61,19 @@ module FreeCell
         actions << m if m.valid?
       end
 
-      # column to foundation
+      # last card in column moves
       @columns.each do |column|
         card = column.last
         next if card.nil?
 
-        m = ColumnToFoundationMove.new(self, card)
-        actions << m if m.valid?
+        m1 = ColumnToFoundationMove.new(self, card)
+        actions << m1 if m1.valid?
+
+        m2 = ColumnToFreeMove.new(self, card)
+        actions << m2 if m2.valid?
       end
 
       # column to column
-      # column to free
 
       actions
     end

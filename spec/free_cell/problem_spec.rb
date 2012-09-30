@@ -61,7 +61,18 @@ describe FreeCell::Problem do
       }
 
       it 'moves the ace to the foundation' do
-        pr.actions.map { |a| a.key }.should == ["Col[AH]->Fo[H]"]
+        pr.actions.map { |a| a.key }.should include "Col[AH]->Fo[H]"
+      end
+    end
+
+    context 'when the board only contains a TH' do
+      let(:ace) { FreeCell::Card.new('T', :hearts) }
+      subject(:pr) {
+        FreeCell::Problem.new(:columns => [[ace]])
+      }
+
+      it 'moves the TH to the free cell' do
+        pr.actions.map { |a| a.key }.should include "Col[TH]->Fr[0]"
       end
     end
   end
