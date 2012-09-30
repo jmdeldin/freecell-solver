@@ -102,4 +102,23 @@ describe Card do
     subject { Card.from_string('2H') }
     its(:ace?) { should be_false }
   end
+
+  describe '#different_color?' do
+    let(:heart) { Card.from_string('2H') }
+    let(:diamond) { Card.from_string('TD') }
+    let(:spade) { Card.from_string('3S') }
+    let(:club) { Card.from_string('KC') }
+
+    it 'returns true given red and black cards' do
+      heart.different_color?(spade).should be_true
+    end
+
+    it 'returns false given red cards' do
+      heart.different_color?(diamond).should be_false
+    end
+
+    it 'returns false given black cards' do
+      club.different_color?(spade).should be_false
+    end
+  end
 end

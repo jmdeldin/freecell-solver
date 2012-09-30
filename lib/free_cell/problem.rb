@@ -73,7 +73,21 @@ module FreeCell
         actions << m2 if m2.valid?
       end
 
-      # column to column
+      # column to column -- for each end card in each column...
+      @columns.each_with_index do |column, i|
+        card = column.last
+        idx  = [i, column.index(card)]
+        next if card.nil? # no need to try moving a blank...
+        opts = { :problem => self, :card => card, :card_index => idx }
+
+        @columns.each_with_index do |target_col, j|
+          next if i == j
+
+          opts[:target_idx] = j
+          m = ColumnToColumnMove.new(opts)
+          actions << m if m.valid?
+        end
+      end
 
       actions
     end

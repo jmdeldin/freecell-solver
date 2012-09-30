@@ -31,6 +31,14 @@ class FreeCell::Card
     !red?
   end
 
+  def color
+    red?? :red : :black
+  end
+
+  def different_color?(other)
+    self.color != other.color
+  end
+
   def ==(other)
     return false unless other.class == self.class
     @face == other.face && @suit == other.suit
