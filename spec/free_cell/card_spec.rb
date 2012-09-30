@@ -40,6 +40,17 @@ describe Card do
     end
   end
 
+  describe '#==' do
+    it 'returns false when comparing to a nil' do
+      e = Card.from_string('AH') == nil
+      e.should be_false
+    end
+    it 'returns true when comparing to the same card' do
+      e = Card.from_string('AH') == Card.from_string('AH')
+      e.should be_true
+    end
+  end
+
   describe '.from_string' do
     {
       '2H' => ['2', :hearts],

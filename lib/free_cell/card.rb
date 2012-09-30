@@ -32,6 +32,7 @@ class FreeCell::Card
   end
 
   def ==(other)
+    return false unless other.class == self.class
     @face == other.face && @suit == other.suit
   end
 
