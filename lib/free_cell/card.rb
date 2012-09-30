@@ -41,9 +41,8 @@ class FreeCell::Card
   end
 
   def self.from_string(str)
-    fail "Cannot make card from empty string" if str.empty?
-    chars = str.chars.to_a
+    fail "Cannot make card from empty string" if str.to_s.length != 2
 
-    Card.new(chars[0], FreeCell::SuitMap.fetch(chars[1]))
+    Card.new(str[0].chr, FreeCell::SuitMap.fetch(str[1].chr))
   end
 end
