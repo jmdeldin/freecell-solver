@@ -7,3 +7,4 @@ require 'set'
 
 require 'free_cell/card'
 require 'free_cell/reader'
+require 'free_cell/problem'
