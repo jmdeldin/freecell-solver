@@ -1,0 +1,49 @@
+FreeCell::SuitMap = {
+  'H' => :hearts,
+  'S' => :spades,
+  'D' => :diamonds,
+  'C' => :clubs
+}
+
+class FreeCell::Card
+  attr_reader :face, :suit, :value
+
+  def initialize(face, suit)
+    @face = face
+    @suit = suit
+
+    @value = case face
+              when 'A' then 1
+              when 'T' then 10
+              when 'J' then 11
+              when 'Q' then 12
+              when 'K' then 13
+              else
+                face.to_i
+              end
+  end
+
+  def red?
+    @suit == :hearts || @suit == :diamonds
+  end
+
+  def black?
+    !red?
+  end
+
+  def ==(other)
+    @face == other.face && @suit == other.suit
+  end
+
+  # Returns 0 if equal, 1 if greater than other, -1 if less than
+  def <=>(other)
+    @value.<=>(other.value)
+  end
+
+  def self.from_string(str)
+    fail "Cannot make card from empty string" if str.empty?
+    chars = str.chars.to_a
+
+    Card.new(chars[0], FreeCell::SuitMap.fetch(chars[1]))
+  end
+end
