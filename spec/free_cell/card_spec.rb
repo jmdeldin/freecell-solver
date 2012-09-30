@@ -81,4 +81,14 @@ describe Card do
       c1.sequentially_larger_than?(c2).should be_false
     end
   end
+
+  context 'given an ace' do
+    subject { Card.from_string('AH') }
+    its(:ace?) { should be_true }
+  end
+
+  context 'not given an ace' do
+    subject { Card.from_string('2H') }
+    its(:ace?) { should be_false }
+  end
 end

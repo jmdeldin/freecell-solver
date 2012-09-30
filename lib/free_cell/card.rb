@@ -44,6 +44,10 @@ class FreeCell::Card
     @face + @suit.to_s.upcase[0].chr
   end
 
+  def ace?
+    @face == 'A'
+  end
+
   def sequentially_larger_than?(other)
     @value - other.value == 1
   end
