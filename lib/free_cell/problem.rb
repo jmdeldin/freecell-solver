@@ -1,5 +1,7 @@
 module FreeCell
   class Problem
+    attr_reader :free_cells, :foundations
+
     def initialize(opts)
       @columns = opts.fetch :columns
 
@@ -9,7 +11,11 @@ module FreeCell
         @foundations.merge!({:diamonds => [], :clubs => []})
       end
 
-      @free_cells = Array.new(opts[:num_free_cells] || 4)
+      if opts[:free_cells]
+        @free_cells = opts[:free_cells]
+      else
+        @free_cells = Array.new(opts[:num_free_cells] || 4)
+      end
     end
 
     # See if our goal state is true, which is when all of the foundations are
@@ -49,19 +55,17 @@ module FreeCell
       actions = []
 
       # free cell to foundation
-      @free_cells.each do |free_cell|
+      free_cells.each do |free_cell|
+        next if free_cell.nil?
         m = FreeToFoundationMove.new(self, free_cell)
-        # actions << m if m.valid?
+        actions << m if m.valid?
       end
 
       # last exposed card to foundation
       # column to column
       # column to free
 
-      # if can_insert_into_foundation? c
-      #   actions << :move_to_foundation
-      # end
-
+      actions
     end
   end
 end

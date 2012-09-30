@@ -32,16 +32,38 @@ describe FreeCell::Problem do
   end
 
   describe '#actions' do
-    context 'when the board only contains an ace' do
-      let(:ace) { FreeCell::Card.new('A', :hearts) }
-      subject(:pr) {
-        FreeCell::Problem.new(:columns => [ace])
-      }
+    context 'when an AH is in a free cell' do
+      subject(:pr) do
+        FreeCell::Problem.new(:columns => [],
+                          :free_cells => [FreeCell::Card.from_string('AH')])
+      end
 
-      it 'moves the ace to the foundation' do
-        pr.should_receive(:current_card).and_return(ace)
-        pr.actions.should == [:move_to_foundation]
+      it 'suggests moving to a foundation' do
+        pr.actions.map { |m| m.key }.should include "Fr[AH]->Fo[H]"
       end
     end
+
+    context 'when a JH is in a free cell but no foundations to insert into' do
+      subject(:pr) do
+        FreeCell::Problem.new(:columns => [],
+                          :free_cells => [FreeCell::Card.from_string('JH')])
+      end
+
+      it 'does not suggest moving to a foundation' do
+        pr.actions.should be_empty
+      end
+    end
+
+    # context 'when the board only contains an ace' do
+    #   let(:ace) { FreeCell::Card.new('A', :hearts) }
+    #   subject(:pr) {
+    #     FreeCell::Problem.new(:columns => [ace])
+    #   }
+
+    #   it 'moves the ace to the foundation'  # do
+    #   #   pr.should_receive(:current_card).and_return(ace)
+    #   #   pr.actions.should == [:move_to_foundation]
+    #   # end
+    # end
   end
 end
