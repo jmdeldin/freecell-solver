@@ -133,7 +133,6 @@ describe FreeCell::Problem do
       end
 
       it 'suggests moving the 2H on top of 3C' do
-        p pr.actions.map(&:key)
         pr.actions.map { |a| a.key }.should include "Fr[2H]->Col[3C]"
       end
     end
