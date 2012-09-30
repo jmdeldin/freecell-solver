@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'stringio'
 
 describe FreeCell::Reader do
-  let(:deal) { "2H AH\n2S AS" }
-  let(:left_col) do
-    [
-      FreeCell::Card.new('2', :spades),
-      FreeCell::Card.new('A', :spades),
-    ]
-  end
+  let(:deal) { "2H AS\n2S AH" }
   let(:right_col) do
     [
       FreeCell::Card.new('2', :hearts),
+      FreeCell::Card.new('A', :spades),
+    ]
+  end
+  let(:left_col) do
+    [
+      FreeCell::Card.new('2', :spades),
       FreeCell::Card.new('A', :hearts),
     ]
   end
