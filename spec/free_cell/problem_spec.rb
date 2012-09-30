@@ -115,5 +115,27 @@ describe FreeCell::Problem do
         pr.actions.map { |a| a.key }.should include "Col[3S]->Col[]"
       end
     end
+
+    context 'when the board has 3S and 3C, and 2H is in a free cell,' do
+      let(:card) { FreeCell::Card.from_string('2H') }
+      let(:right_col) { [FreeCell::Card.from_string('3S')] }
+      let(:left_col) { [FreeCell::Card.from_string('3C')] }
+      subject(:pr) {
+        FreeCell::Problem.new({
+                                :columns => [right_col, left_col],
+                                :free_cells => [card],
+                                :num_foundations => 4,
+                              })
+      }
+
+      it 'suggests moving the 2H on top of 3S' do
+        pr.actions.map { |a| a.key }.should include "Fr[2H]->Col[3S]"
+      end
+
+      it 'suggests moving the 2H on top of 3C' do
+        p pr.actions.map(&:key)
+        pr.actions.map { |a| a.key }.should include "Fr[2H]->Col[3C]"
+      end
+    end
   end
 end

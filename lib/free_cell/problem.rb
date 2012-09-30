@@ -54,9 +54,10 @@ module FreeCell
     def actions
       actions = []
 
-      # free cell to foundation
       @free_cells.each do |free_cell|
         next if free_cell.nil?
+
+        # free cell to foundation
         m = FreeToFoundationMove.new(self, free_cell)
         actions << m if m.valid?
       end
@@ -85,6 +86,18 @@ module FreeCell
 
           opts[:target_idx] = j
           m = ColumnToColumnMove.new(opts)
+          actions << m if m.valid?
+        end
+      end
+
+      # free to column
+      opts = {:problem => self}
+      @free_cells.each_with_index do |free_cell, i|
+        next if free_cell.nil?
+        opts.merge!({:card => free_cell, :card_index => i})
+        @columns.each_with_index do |target_col, target_idx|
+          opts[:target_idx] = target_idx
+          m = FreeToColumnMove.new(opts)
           actions << m if m.valid?
         end
       end
