@@ -1,6 +1,12 @@
 class FreeCell::Problem
   def initialize(opts)
     @columns = opts.fetch :columns
+
+    @num_foundations = opts[:num_foundations] || 2
+    @foundations = {:spades => [], :hearts => []}
+    if @num_foundations == 4
+      @foundations.merge!({:diamonds => [], :clubs => []})
+    end
   end
 
   # See if our goal state is true, which is when all of the foundations are
@@ -21,5 +27,28 @@ class FreeCell::Problem
 
   def empty_free_cells?
     @free_cells.empty?
+  end
+
+  def empty_foundations?
+    @foundations.flatten.empty?
+  end
+
+  def can_insert_into_foundation?(card)
+    f = @foundations[card.suit]
+
+    card.face == 'A' || card.sequentially_larger_than?(f.last)
+  end
+
+
+  # Returns the available actions based on the current columns, free cells,
+  # and foundations.
+  def actions
+    c = current_card
+    actions = []
+
+    if can_insert_into_foundation? c
+      actions << :move_to_foundation
+    end
+
   end
 end

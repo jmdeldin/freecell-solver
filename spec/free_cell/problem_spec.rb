@@ -9,9 +9,9 @@ describe FreeCell::Problem do
     ]
   end
 
-  let(:opts) { {:columns => columns} }
+  let(:opts) { {:columns => columns, :num_foundations => 2} }
 
-  describe '#goal_state' do
+  describe '#solved?' do
     subject(:pr) { FreeCell::Problem.new(opts) }
     it 'returns true when the free cells and cascades are empty' do
       pr.should_receive(:empty_columns?).and_return(true)
@@ -29,6 +29,19 @@ describe FreeCell::Problem do
       pr.should_receive(:empty_columns?).and_return(false)
       pr.solved?.should be_false
     end
+  end
 
+  describe '#actions' do
+    context 'when the board only contains an ace' do
+      let(:ace) { FreeCell::Card.new('A', :hearts) }
+      subject(:pr) {
+        FreeCell::Problem.new(:columns => [ace])
+      }
+
+      it 'moves the ace to the foundation' do
+        pr.should_receive(:current_card).and_return(ace)
+        pr.actions.should == [:move_to_foundation]
+      end
+    end
   end
 end
