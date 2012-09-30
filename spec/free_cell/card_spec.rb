@@ -59,4 +59,6 @@ describe Card do
       expect { Card.from_string('') }.to raise_error
     end
   end
+
+  its(:to_s) { should == "AH" }
 end

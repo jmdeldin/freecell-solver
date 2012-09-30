@@ -40,9 +40,13 @@ class FreeCell::Card
     @value.<=>(other.value)
   end
 
+  def to_s
+    @face + @suit.to_s.upcase[0].chr
+  end
+
   def self.from_string(str)
     fail "Cannot make card from empty string" if str.to_s.length != 2
 
-    Card.new(str[0].chr, FreeCell::SuitMap.fetch(str[1].chr))
+    self.new(str[0].chr, FreeCell::SuitMap.fetch(str[1].chr))
   end
 end
