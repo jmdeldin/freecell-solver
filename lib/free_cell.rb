@@ -7,4 +7,6 @@ require 'set'
 
 require 'free_cell/card'
 require 'free_cell/reader'
+require 'free_cell/move'
+require 'free_cell/free_to_foundation_move'
 require 'free_cell/problem'
