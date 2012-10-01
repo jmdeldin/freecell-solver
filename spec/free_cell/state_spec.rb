@@ -3,10 +3,14 @@ require 'spec_helper'
 module FreeCell
   describe State do
     describe '.generate_goal_state' do
-      it 'makes columns and free cells empty' do
+      it 'makes columns empty' do
         g = State.generate_goal_state
         g.columns.should be_empty
-        g.free_cells.should be_empty
+      end
+
+      it 'makes free cells all nil' do
+        g = State.generate_goal_state
+        g.free_cells.should == [nil, nil, nil, nil]
       end
 
       context 'with 2 cards' do

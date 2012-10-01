@@ -27,12 +27,16 @@ module FreeCell
     def self.generate_goal_state(opts={})
       opts[:num_cards] ||= 13
       opts[:num_suits] ||= 2
+      opts[:num_free_cells] ||= 4
+
       foundations = {:spades => [], :hearts => []}
 
       if opts[:num_suits] == 4
         foundations[:diamonds] = []
         foundations[:clubs]    = []
       end
+
+      free_cells = Array.new(opts[:num_free_cells])
 
       faces = %w(A 2 3 4 5 6 7 8 9 T J Q K)[0...opts[:num_cards]]
 
@@ -42,7 +46,7 @@ module FreeCell
         end
       end
 
-      self.new([], foundations, [])
+      self.new([], foundations, free_cells)
     end
   end
 end
