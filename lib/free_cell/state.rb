@@ -22,6 +22,29 @@ module FreeCell
       @columns.hash ^ @free_cells.hash ^ @foundations.hash
     end
 
+    # Deep-clone the attributes
+    def initialize_copy(source)
+      super(source)
+
+      @columns = []
+      source.columns.each { |c| @columns << c.clone }
+
+      @foundations = {}
+      source.foundations.each do |k, v|
+        @foundations[k] = []
+        v.each { |c| @foundations[k] << c.clone }
+      end
+
+      @free_cells = []
+      source.free_cells.each do |fc|
+        if fc.nil?
+          @free_cells << fc
+        else
+          @free_cells << fc.clone
+        end
+      end
+    end
+
     # Generate a pre-filled goal state.
     #
     def self.generate_goal_state(opts={})
