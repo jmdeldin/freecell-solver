@@ -9,14 +9,19 @@ EOF
 
 abort usage unless ARGV.first
 
-reader  = FreeCell::Reader.new(File.open(ARGV.first))
+reader  = FreeCell::Reader.new(File.open(ARGV.shift))
 problem = FreeCell::Problem.new({
   :columns         => reader.columns,
   :num_foundations => reader.num_suits,
   :num_free_cells  => reader.num_free,
 })
 
-klass = reader.algorithm.to_s.capitalize + 'Solver'
+if ARGV.any?
+  # override the algo
+  klass = ARGV.shift.capitalize + 'Solver'
+else
+  klass = reader.algorithm.to_s.capitalize + 'Solver'
+end
 
 solver = if klass == "AstarSolver" then
            FreeCell::AstarSolver.new(problem)
