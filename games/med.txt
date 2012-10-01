@@ -1,0 +1,16 @@
+# A game of spades and hearts with just aces and twos
+2 # bfs
+4 # suits
+13 # ace and two
+2 # columns
+2 # free cells
+3 # verbose output
+
+AD 5D 2S AC 9C JD
+7D 9D 3S 4C 6D JC
+5S 4S 7S 9S AH QD
+7C 8H 8S TD TS 4D
+JH QS KH TC 6C QH 5H
+KS 8C 3D KD 9H QC 6S
+JS 7H AS 2H 2C 3H KC
+4H 5C 6H TH 2D 8D 3C

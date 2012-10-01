@@ -1,0 +1,15 @@
+5 # bfs
+4 # suits
+13 # ace and two
+8 # columns
+4 # free cells
+2 # verbose output
+
+AD AH
+
+3S 3H
+3D 2D
+AS
+2H
+2S 3C
+AC 2C

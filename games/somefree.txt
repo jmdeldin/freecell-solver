@@ -1,0 +1,10 @@
+5 # astar
+2 # suits
+2 # ace and two
+2 # columns
+1 # free cells
+2 # verbose output
+
+2H AH 3S
+2S AS 4S
+3H 4H

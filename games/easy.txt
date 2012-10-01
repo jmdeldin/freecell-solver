@@ -1,0 +1,10 @@
+# A game of spades and hearts with just aces and twos
+2 # bfs
+2 # suits
+2 # ace and two
+2 # columns
+2 # free cells
+2 # verbose output
+
+2H AH
+2S AS
