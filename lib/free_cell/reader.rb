@@ -1,5 +1,5 @@
 class FreeCell::Reader
-  attr_reader :columns
+  attr_reader :columns, :num_suits, :num_free
 
   def initialize(file_handle)
     @num_suits = @num_cards = @num_cols = @num_free = @verbosity = 0
