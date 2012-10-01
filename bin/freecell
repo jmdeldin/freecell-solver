@@ -14,6 +14,11 @@ goal = FreeCell::State.generate_goal_state({ :num_cards => r.num_cards,
                                              :num_free_cells => r.num_free,
                                            })
 
+puts "Goal:"
+puts "free cells  = #{goal.free_cells.map{|x| '_' }}"
+puts "foundations = #{goal.foundations.inspect}"
+puts
+
 state = FreeCell::State.new(r.columns, {}, Array.new(r.num_free))
 goal.foundations.keys.each { |k| state.foundations[k] = [] }
 
