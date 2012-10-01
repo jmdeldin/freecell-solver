@@ -30,7 +30,7 @@ module FreeCell
         move.to_s.should == "2H from free cell 0 to hearts foundation"
         problem.foundations[:hearts].map { |c| c.to_s }.should == %w(AH 2H)
         move.key.should == "Fr[2H]->Fo[H]"
-        problem.free_cells.should be_empty
+        problem.free_cells.should == [nil]
       end
     end
 

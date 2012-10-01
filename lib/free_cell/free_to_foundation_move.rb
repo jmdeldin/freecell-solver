@@ -23,7 +23,7 @@ module FreeCell
 
     def execute
       # remove free card from free cells
-      @problem.free_cells.delete_at @free_cell_index
+      @problem.free_cells[@free_cell_index] = nil
 
       # insert into foundation
       suit_foundation << @card
