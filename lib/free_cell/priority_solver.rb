@@ -16,7 +16,7 @@ module FreeCell
 
       frontier.push(g, @priority_func.call(g))
       marked = Set.new
-      marked.add g.board
+      marked.add g.problem
       explored = Set.new
 
       until frontier.empty?
@@ -26,7 +26,7 @@ module FreeCell
         @counts += 1
         progress_report
 
-        explored << ng.board
+        explored << ng.problem
 
         # for every action, create some separate graphs
         ng.problem.actions.each do |action|
@@ -34,12 +34,12 @@ module FreeCell
           action.execute
           new_graph = Node.new(action.problem.clone, ng, action)
 
-          if explored.include? new_graph.board
+          if explored.include? new_graph.problem
             next
           end
 
-          unless marked.include? new_graph.board
-            marked.add new_graph.board
+          unless marked.include? new_graph.problem
+            marked.add new_graph.problem
             frontier.push(new_graph, @priority_func.call(new_graph))
           end
         end

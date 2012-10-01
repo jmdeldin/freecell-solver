@@ -137,4 +137,42 @@ describe FreeCell::Problem do
       end
     end
   end
+
+  let(:prob1) do
+    {
+      :columns => [%w(2H 2D 2S).map { |c| FreeCell::Card.from_string(c) }],
+      :free_cells => [nil, nil],
+      :num_foundations => 4,
+    }
+  end
+  let(:prob2) do
+    {
+      :columns => [%w(2C 3D 2S).map { |c| FreeCell::Card.from_string(c) }],
+      :free_cells => [nil, nil],
+      :num_foundations => 4,
+    }
+  end
+
+  describe '#eql?' do
+    it 'returns true when the ivars are the same' do
+      p1 = FreeCell::Problem.new(prob1)
+      p2 = FreeCell::Problem.new(prob1)
+
+      (p1.eql?(p2)).should be_true
+    end
+
+    it 'returns false when the ivars are different' do
+      p1 = FreeCell::Problem.new(prob1)
+      p2 = FreeCell::Problem.new(prob2)
+
+      (p1.eql?(p2)).should be_false
+    end
+  end
+  describe 'comparing in a set' do
+    it 'does not allow a problem with the same attrs to be inserted' do
+      s = Set.new
+      s << (FreeCell::Problem.new(prob1))
+      s.include?(FreeCell::Problem.new(prob1)).should be_true
+    end
+  end
 end

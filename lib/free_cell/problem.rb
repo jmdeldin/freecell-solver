@@ -105,6 +105,17 @@ module FreeCell
       actions
     end
 
+    def eql?(other)
+      self.class.equal?(other.class) && @columns == other.columns &&
+        @free_cells == other.free_cells &&
+        @foundations == other.foundations
+    end
+    alias_method :==, :eql?
+
+    def hash
+      @columns.hash ^ @free_cells.hash ^ @foundations.hash
+    end
+
     # For #clone to work as expected, we need to clone the instance variables we
     # care about (board and blank position).
     def initialize_copy(source)

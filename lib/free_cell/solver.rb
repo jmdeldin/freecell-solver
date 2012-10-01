@@ -15,7 +15,7 @@ module FreeCell
       g = Node.new(@problem)
       @frontier.push g
       marked = Set.new
-      marked.add g.board
+      marked.add g.problem
 
       until @frontier.empty?
         ng = @frontier.pop
@@ -30,8 +30,8 @@ module FreeCell
           action.execute
           new_graph = Node.new(action.problem.clone, ng, action)
 
-          unless marked.include? new_graph.board
-            marked.add new_graph.board
+          unless marked.include? new_graph.problem
+            marked.add new_graph.problem
             @frontier.push new_graph
           end
         end
@@ -63,6 +63,7 @@ module FreeCell
       puts "Log:"
       puts @nodes.map { |n| n.move }.join("\n")
     end
+    alias_method :show_descriptions, :descriptions
 
     def show_boards
       descriptions
