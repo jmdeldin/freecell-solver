@@ -43,8 +43,8 @@ module FreeCell
         card = column.last
         idx  = [i, column.index(card)]
         next if card.nil? # no need to try moving a blank...
-        opts = { :state => state, :card => card, :card_index => idx }
 
+        opts = { :state => state.clone, :card => card, :card_index => idx }
         state.columns.each_with_index do |target_col, j|
           next if i == j
 
