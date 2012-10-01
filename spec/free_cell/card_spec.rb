@@ -121,4 +121,18 @@ describe Card do
       club.different_color?(spade).should be_false
     end
   end
+
+  describe '#hash' do
+    it 'returns the same hash for identical attributes' do
+      c1 = Card.from_string('2H')
+      c2 = Card.from_string('2H')
+      expect(c1.hash).to eql c2.hash
+    end
+
+    it 'returns a different hash for different attributes' do
+      c1 = Card.from_string('2H')
+      c2 = Card.from_string('2D')
+      expect(c1.hash).to_not eql c2.hash
+    end
+  end
 end

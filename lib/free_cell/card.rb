@@ -49,6 +49,10 @@ class FreeCell::Card
     @value.<=>(other.value)
   end
 
+  def hash
+    @face.hash ^ @suit.hash
+  end
+
   def to_s
     @face + @suit.to_s.upcase[0].chr
   end
