@@ -39,12 +39,12 @@ class FreeCell::NodePrinter
     end
   end
 
-  def show_steps
+  def steps
     "Number of steps: #{@tail.cost}"
   end
 
-  def show_moves
-    s = [show_steps]
+  def moves
+    s = [steps]
     @nodes.each do |node|
       if node.action
         s << node.action.to_s
@@ -53,11 +53,14 @@ class FreeCell::NodePrinter
     s.join("\n")
   end
 
-  def show_states
-    s = [show_steps]
+  def states
+    s = [steps]
     @nodes.each do |node|
       if node.action
         s << node.action.to_s
+        s << node.state.to_s
+      else
+        s << "Initial configuration"
         s << node.state.to_s
       end
     end

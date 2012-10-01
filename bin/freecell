@@ -31,4 +31,11 @@ solver = if klass == "AstarSolver" then
 
 # override the verbosity -- steps, descriptions, show_boards
 verbosity = ARGV.any?? ARGV.shift.to_sym : r.verbosity
-solver.send(verbosity)
+
+if solver.solution
+  puts "Solution found!"
+  np = FreeCell::NodePrinter.new(solver.solution)
+  puts np.send(verbosity)
+else
+  abort "No solution found!"
+end

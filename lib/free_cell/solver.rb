@@ -26,6 +26,8 @@ module FreeCell
           return @solution
         end
 
+        progress_report
+
         @problem.actions_for(node.state).each do |action|
           action.state = node.state.clone
           action.execute
@@ -39,10 +41,8 @@ module FreeCell
             @frontier.push new_node
           end
         end
-
       end
 
-      STDERR.puts "No solution"
     end
 
     def compute_path
@@ -57,32 +57,9 @@ module FreeCell
       end
     end
 
-    def num_steps
-      @path_length
-    end
-
-    def steps
-      puts "Number of steps: #{num_steps}"
-    end
-
-    def descriptions
-      steps
-      puts "Log:"
-      puts @nodes.map { |n| n.move }.join("\n")
-    end
-    alias_method :show_descriptions, :descriptions
-
-    def show_boards
-      descriptions
-      puts "\nCascade history:"
-      @nodes.each do |n|
-        next if n.move.nil?
-        puts n.move.state.print_state
-      end
-    end
-
     def progress_report
-      puts @counts if (@counts % 1000) == 0
+      @counts += 1
+      STDERR.puts @counts if (@counts % 1000) == 0
     end
   end
 end

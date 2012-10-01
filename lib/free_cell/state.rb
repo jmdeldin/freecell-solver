@@ -46,7 +46,7 @@ module FreeCell
     end
 
     def to_s
-      @columns.map { |row| row.join(" ") }.join("\n")
+      @columns.map { |row| "  " + row.join(" ") }.join("\n")
     end
 
     def inspect

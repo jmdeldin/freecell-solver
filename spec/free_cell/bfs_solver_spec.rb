@@ -23,17 +23,6 @@ module FreeCell
         solver.solution.should_not be_nil
         solver.path_length.should == 1
       end
-
-      it 'returns a sequence of moves'
     end
-
-  #   context 'when given a puzzle with four moves to make' do
-  #     # 3 1
-  #     # 2 0
-  #     let(:board) { [[3, 1], [2, 0]] }
-  #     it 'returns a path cost of 4' do
-  #       solver.num_steps.should == 4
-  #     end
-  #   end
   end
 end
