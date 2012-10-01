@@ -2,11 +2,11 @@ module FreeCell
   # Moving an exposed card from a column to a foundation.
   class ColumnToFoundationMove < Move
 
-    def initialize(problem, card)
-      @problem  = problem
-      @card     = card
-      @executed = false
-      @column_index = problem.columns.index2d card
+    def initialize(state, card, column_index)
+      super()
+      @state        = state
+      @card         = card
+      @column_index = column_index
     end
 
     # It is valid to move the card into a foundation if it is one larger than
@@ -19,11 +19,8 @@ module FreeCell
     end
 
     def execute
-      c = @problem.columns[@column_index[0]].pop
-
-      # insert into foundation
+      c = @state.columns[@column_index].pop
       suit_foundation << c
-
       @executed = true
     end
 
@@ -41,7 +38,7 @@ module FreeCell
     private
 
     def suit_foundation
-      @problem.foundations[@card.suit]
+      @state.foundations[@card.suit]
     end
   end
 end
