@@ -23,7 +23,7 @@ describe FreeCell::Reader do
   end
 
   it 'sets the correct verbosity' do
-    reader.verbosity.should == :board
+    reader.verbosity.should == :show_boards
   end
 
   it 'sets the correct deal' do
