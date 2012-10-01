@@ -20,9 +20,9 @@ class FreeCell::Reader
 
   def verbosity
     case @verbosity
-    when 0 then :show_steps
-    when 1 then :show_descriptions
-    when 2 then :show_boards
+    when 0 then :steps
+    when 1 then :moves
+    when 2 then :states
     end
   end
 

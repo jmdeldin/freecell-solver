@@ -53,6 +53,10 @@ module FreeCell
       "<State id=#{object_id} columns=#{@columns.inspect} free_cells=#{@free_cells.inspect} foundations=#{@foundations.inspect}>"
     end
 
+    def heuristic
+      @columns.flatten.size
+    end
+
     # Generate a pre-filled goal state.
     #
     def self.generate_goal_state(opts={})

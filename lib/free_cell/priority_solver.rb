@@ -1,52 +1,48 @@
 module FreeCell
   class PrioritySolver < Solver
     def initialize(problem, priority_func)
-      @counts = 0
-      @solution = nil
+      @counts        = 0
+      @problem       = problem
+      @solution      = nil
       @priority_func = priority_func
-      run(problem)
-      compute_path
-    end
-
-    def run(problem)
-      g = Node.new(problem)
-      frontier = Containers::PriorityQueue.new do |x, y|
+      @marked        = Set.new
+      @frontier      = Containers::PriorityQueue.new do |x, y|
         (y <=> x) == 1 # prefer smaller elts
       end
 
+      run
+      compute_path
+    end
 
-      frontier.push(g, @priority_func.call(g))
-      marked = Set.new
-      marked.add g.problem
-      explored = Set.new
+    def run
+      root = Node.new(@problem.state)
+      @frontier.push(root, @priority_func.call(root))
+      @marked << root
 
-      until frontier.empty?
-        ng = frontier.pop
+      until @frontier.empty?
+        node = @frontier.pop
 
-        return @solution = ng if ng.problem.solved?
-        @counts += 1
+        if node.state == @problem.goal
+          @solution = node
+          return @solution
+        end
+
         progress_report
 
-        explored << ng.problem
-
-        # for every action, create some separate graphs
-        ng.problem.actions.each do |action|
-          action.problem = ng.problem.clone
+        @problem.actions_for(node.state).each do |action|
+          action.state = node.state.clone
           action.execute
-          new_graph = Node.new(action.problem.clone, ng, action)
 
-          if explored.include? new_graph.problem
-            next
-          end
+          new_node = Node.new(action.state)
+          new_node.action = action
+          new_node.parent = node
 
-          unless marked.include? new_graph.problem
-            marked.add new_graph.problem
-            frontier.push(new_graph, @priority_func.call(new_graph))
+          unless @marked.include? new_node.state
+            @marked << new_node
+            @frontier.push(new_node, @priority_func.call(new_node))
           end
         end
       end
-
-      STDERR.puts "!> No solution found <!"
     end
   end
 end
