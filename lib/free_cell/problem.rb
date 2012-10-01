@@ -35,7 +35,7 @@ module FreeCell
     end
 
     def empty_free_cells?
-      @free_cells.empty?
+      @free_cells.compact.empty?
     end
 
     def empty_foundations?
@@ -103,6 +103,44 @@ module FreeCell
       end
 
       actions
+    end
+
+    # For #clone to work as expected, we need to clone the instance variables we
+    # care about (board and blank position).
+    def initialize_copy(source)
+      super(source)
+
+      @foundations = {}
+      source.foundations.each { |k, v| @foundations[k] = v.clone }
+      @columns     = []
+      source.columns.each { |x| @columns << x.clone }
+      @free_cells  = []
+      source.free_cells.each do |x|
+        if x.nil?
+          @free_cells << x
+        else
+          @free_cells << x.clone
+        end
+      end
+    end
+
+    # Return a representation for comparison in sets
+    def board
+      {:columns => @columns, :foundations => @foundations}.values.to_s
+    end
+
+    def print_state
+      puts "free cells:  " + @free_cells.join("|")
+      puts "foundations: " + @foundations.inspect
+      puts "................"
+      @columns.each do |col|
+        puts col.join(" ") unless col.empty?
+      end
+      puts "................"
+    end
+
+    def heuristic
+      @columns.flatten.size
     end
   end
 end
