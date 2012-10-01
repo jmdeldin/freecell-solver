@@ -1,41 +1,48 @@
 module FreeCell
+  # Generic graph search.
   class Solver
-    attr_reader :counts, :solution
+    attr_reader :counts, :solution, :path_length
 
     def initialize(problem, frontier)
       @frontier = frontier
-      @counts = 0
+      @counts   = 0
       @solution = nil
-      @problem = problem
+      @problem  = problem
+      @marked   = Set.new
       run
       compute_path
     end
 
     def run
-      g = Node.new(@problem)
-      @frontier.push g
-      marked = Set.new
-      marked.add g.problem
+      root = Node.new(@problem.state)
+      @frontier.push root
+      @marked << root
 
       until @frontier.empty?
-        ng = @frontier.pop
+        node = @frontier.pop
 
-        return @solution = ng if ng.problem.solved?
-        @counts += 1
-        progress_report
+        if node.state == @problem.goal
+          @solution = node
+          return @solution
+        end
 
-        # for every action, create some separate graphs
-        ng.problem.actions.each do |action|
-          action.problem = ng.problem.clone
+        @problem.actions_for(node.state).each do |action|
+          action.state = node.state.clone
           action.execute
-          new_graph = Node.new(action.problem.clone, ng, action)
 
-          unless marked.include? new_graph.problem
-            marked.add new_graph.problem
-            @frontier.push new_graph
+          new_node = Node.new(action.state)
+          new_node.action = action
+          new_node.parent = node
+
+          unless @marked.include? new_node.state
+            @marked << new_node
+            @frontier.push new_node
           end
         end
+
       end
+
+      STDERR.puts "No solution"
     end
 
     def compute_path
@@ -70,7 +77,7 @@ module FreeCell
       puts "\nCascade history:"
       @nodes.each do |n|
         next if n.move.nil?
-        puts n.move.problem.print_state
+        puts n.move.state.print_state
       end
     end
 

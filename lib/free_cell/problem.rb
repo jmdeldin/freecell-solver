@@ -1,6 +1,9 @@
 module FreeCell
   # Represents a problem to be solved by an intelligence agent.
   class Problem
+    attr_accessor :state
+    attr_reader :goal
+
     def initialize(state, goal)
       @state = state
       @goal  = goal
@@ -13,36 +16,36 @@ module FreeCell
 
     # Returns the available actions based on the current columns, free cells,
     # and foundations.
-    def actions
+    def actions_for(state)
       actions = []
 
-      @state.free_cells.each_with_index do |free_cell, i|
+      state.free_cells.each_with_index do |free_cell, i|
         next if free_cell.nil?
-        m = FreeToFoundationMove.new(@state, free_cell, i)
+        m = FreeToFoundationMove.new(state, free_cell, i)
         actions << m if m.valid?
       end
 
       # last card in column moves
-      @state.columns.each_with_index do |column, i|
+      state.columns.each_with_index do |column, i|
         card = column.last
         next if card.nil?
 
-        m1 = ColumnToFoundationMove.new(@state, card, i)
+        m1 = ColumnToFoundationMove.new(state, card, i)
         actions << m1 if m1.valid?
 
-        m2 = ColumnToFreeMove.new(@state, card, i)
+        m2 = ColumnToFreeMove.new(state, card, i)
         actions << m2 if m2.valid?
       end
 
 
       # column to column -- for each end card in each column...
-      @state.columns.each_with_index do |column, i|
+      state.columns.each_with_index do |column, i|
         card = column.last
         idx  = [i, column.index(card)]
         next if card.nil? # no need to try moving a blank...
-        opts = { :state => @state, :card => card, :card_index => idx }
+        opts = { :state => state, :card => card, :card_index => idx }
 
-        @state.columns.each_with_index do |target_col, j|
+        state.columns.each_with_index do |target_col, j|
           next if i == j
 
           opts[:target_idx] = j
@@ -52,11 +55,11 @@ module FreeCell
       end
 
       # free to column
-      opts = {:state => @state}
-      @state.free_cells.each_with_index do |free_cell, i|
+      opts = {:state => state}
+      state.free_cells.each_with_index do |free_cell, i|
         next if free_cell.nil?
         opts.merge!({:card => free_cell, :card_index => i})
-        @state.columns.each_with_index do |target_col, target_idx|
+        state.columns.each_with_index do |target_col, target_idx|
           opts[:target_idx] = target_idx
           m = FreeToColumnMove.new(opts)
           actions << m if m.valid?
@@ -64,6 +67,10 @@ module FreeCell
       end
 
       actions
+    end
+
+    def actions
+      actions_for(@state)
     end
   end
 end

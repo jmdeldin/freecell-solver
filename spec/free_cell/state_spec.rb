@@ -5,7 +5,7 @@ module FreeCell
     describe '.generate_goal_state' do
       it 'makes columns empty' do
         g = State.generate_goal_state
-        g.columns.should be_empty
+        g.columns.should == [[], []]
       end
 
       it 'makes free cells all nil' do

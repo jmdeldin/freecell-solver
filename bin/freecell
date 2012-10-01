@@ -17,7 +17,7 @@ goal = FreeCell::State.generate_goal_state({ :num_cards => r.num_cards,
 state = FreeCell::State.new(r.columns, {}, Array.new(r.num_free))
 goal.foundations.keys.each { |k| state.foundations[k] = [] }
 
-problem = FreeCell::Problem.new(goal, state)
+problem = FreeCell::Problem.new(state, goal)
 
 # override the algorithm
 algo = ARGV.any?? ARGV.shift : r.algorithm.to_s

@@ -44,7 +44,7 @@ module FreeCell
         }
 
         it 'does not suggest moving to a foundation' do
-          pr.actions.should be_empty
+          pr.actions.map { |a| a.key }.should_not include "Fr[JH]->Fo[H]"
         end
       end
 
