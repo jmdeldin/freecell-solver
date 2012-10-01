@@ -3,13 +3,13 @@ module FreeCell
   class ColumnToColumnMove < Move
 
     def initialize(opts)
-      @problem  = opts.fetch :problem
-      @card     = opts.fetch :card
+      super()
+      @state      = opts.fetch :state
+      @card       = opts.fetch :card
       @card_index = opts.fetch :card_index
       @target_idx = opts.fetch :target_idx
-      @target_col = @problem.columns[@target_idx]
+      @target_col = @state.columns[@target_idx]
       @last_card  = @target_col.last
-      @executed = false
     end
 
     # It is valid to move the card on top of another card if it's a different
@@ -17,12 +17,13 @@ module FreeCell
     def valid?
       return true if @last_card.nil?
 
-      @last_card.different_color?(@card) && @last_card.sequentially_larger_than?(@card)
+      @last_card.different_color?(@card) &&
+        @last_card.sequentially_larger_than?(@card)
     end
 
     def execute
       # remove the card from the old cascade
-      c = @problem.columns[@card_index[0]].pop
+      c = @state.columns[@card_index[0]].pop
       # put it on the new cascade
       @target_col << c
       @executed = true

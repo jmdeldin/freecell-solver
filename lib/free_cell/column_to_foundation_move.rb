@@ -32,7 +32,7 @@ module FreeCell
     def to_s
       return 'no move made' unless @executed
 
-      "#{@card} from cascade #{@column_index[0]} to #{@card.suit} foundation"
+      "#{@card} from cascade #{@column_index} to #{@card.suit} foundation"
     end
 
     private

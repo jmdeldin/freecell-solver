@@ -5,8 +5,8 @@ module FreeCell
   describe ColumnToFreeMove do
     let(:card) { Card.from_string '2H' }
     let(:other_card) { Card.from_string 'TH' }
-    let(:problem) { OpenStruct.new(:columns => [[card], []], :free_cells => free_cells) }
-    subject(:move) { ColumnToFreeMove.new(problem, card) }
+    let(:state) { OpenStruct.new(:columns => [[card], []], :free_cells => free_cells) }
+    subject(:move) { ColumnToFreeMove.new(state, card, 0) }
 
     context 'with a 2H on the board and all free cells' do
       let(:free_cells) { [other_card, nil] }
@@ -15,8 +15,8 @@ module FreeCell
         move.execute
         move.to_s.should == "2H from cascade 0 to cell"
         move.key.should == "Col[2H]->Fr[1]"
-        problem.free_cells.should == [other_card, card]
-        problem.columns.flatten.should be_empty
+        state.free_cells.should == [other_card, card]
+        state.columns.flatten.should be_empty
       end
     end
 

@@ -3,13 +3,13 @@ require 'ostruct'
 
 module FreeCell
   describe FreeToColumnMove do
-    let(:problem) do
+    let(:state) do
       OpenStruct.new({ :columns => [[other_card]],
                        :num_foundations => 2,
                        :free_cells => [card] })
     end
     let(:opts) {{
-        :problem => problem,
+        :state => state,
         :card => card,
         :card_index => 0,
         :target_idx => 0,
@@ -24,8 +24,8 @@ module FreeCell
       its(:valid?) { should be_true }
       it 'moves 2H on top of 3S' do
         move.execute
-        problem.free_cells.should == [nil]
-        problem.columns.should == [[other_card, card]]
+        state.free_cells.should == [nil]
+        state.columns.should == [[other_card, card]]
       end
     end
   end

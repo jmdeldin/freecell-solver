@@ -3,12 +3,12 @@ require 'ostruct'
 
 module FreeCell
   describe ColumnToColumnMove do
-    let(:problem) do
+    let(:state) do
       OpenStruct.new({ :columns => [target_col, [card]],
                        :foundations => {:spades => [], :hearts => []} })
     end
     let(:target_idx) { 0 }
-    let(:opts) { {:problem => problem, :card => card, :target_idx => target_idx, :card_index => [1, 0]}}
+    let(:opts) { {:state => state, :card => card, :target_idx => target_idx, :card_index => [1, 0]}}
 
     subject(:move) { described_class.new(opts) }
 
@@ -25,8 +25,8 @@ module FreeCell
           move.to_s.should == "QH from cascade 1 to cascade 0"
         end
         it 'updates the position of the card' do
-          problem.columns[1].should be_empty
-          problem.columns[target_idx].should == [card]
+          state.columns[1].should be_empty
+          state.columns[target_idx].should == [card]
         end
       end
     end
@@ -41,8 +41,8 @@ module FreeCell
       it 'moves the QH on top of the KS' do
         move.execute
         move.to_s.should == "QH from cascade 1 to cascade 0"
-        problem.columns[1].should be_empty
-        problem.columns[target_idx].should == [other_card, card]
+        state.columns[1].should be_empty
+        state.columns[target_idx].should == [other_card, card]
       end
     end
 

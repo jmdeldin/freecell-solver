@@ -2,11 +2,11 @@ module FreeCell
   # Moving an exposed card from a column to a free cell.
   class ColumnToFreeMove < Move
 
-    def initialize(problem, card)
-      @problem  = problem
-      @card     = card
-      @executed = false
-      @column_index = problem.columns.index2d card
+    def initialize(state, card, column_index)
+      super()
+      @state      = state
+      @card         = card
+      @column_index = column_index
     end
 
     # It is a valid move from a column to free cell if the free cell is blank.
@@ -16,10 +16,10 @@ module FreeCell
 
     def execute
       # remove exposed card from board
-      c = @problem.columns[@column_index[0]].pop
+      c = @state.columns[@column_index].pop
 
       # replace free cell
-      @problem.free_cells[free_cell_index] = c
+      @state.free_cells[free_cell_index] = c
 
       @executed = true
     end
@@ -31,13 +31,13 @@ module FreeCell
     def to_s
       return 'no move made' unless @executed
 
-      "#{@card} from cascade #{@column_index[0]} to cell"
+      "#{@card} from cascade #{@column_index} to cell"
     end
 
     private
 
     def free_cell_index
-      @free_cell_index ||= @problem.free_cells.index nil
+      @free_cell_index ||= @state.free_cells.index nil
     end
   end
 end

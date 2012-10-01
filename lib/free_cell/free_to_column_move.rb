@@ -3,24 +3,25 @@ module FreeCell
   class FreeToColumnMove < Move
 
     def initialize(opts)
-      @problem  = opts.fetch :problem
-      @card     = opts.fetch :card
+      super()
+      @state      = opts.fetch :state
+      @card       = opts.fetch :card
       @card_index = opts.fetch :card_index
       @target_idx = opts.fetch :target_idx
-      @target_col = @problem.columns[@target_idx]
+      @target_col = @state.columns[@target_idx]
       @last_card  = @target_col.last
-      @executed = false
     end
 
     def valid?
       return true if @last_card.nil?
 
-      @last_card.different_color?(@card) && @last_card.sequentially_larger_than?(@card)
+      @last_card.different_color?(@card) &&
+        @last_card.sequentially_larger_than?(@card)
     end
 
     def execute
       # remove the card from the free cell
-      @problem.free_cells[@card_index] = nil
+      @state.free_cells[@card_index] = nil
 
       # put it on the new cascade
       @target_col << @card
