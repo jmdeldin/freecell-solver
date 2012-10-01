@@ -1,0 +1,44 @@
+#+TITLE:       FreeCell Solver
+#+STARTUP:     align hidestars indent
+
+* Requirements
+- UNIX-like system running Ruby 1.8.7 or better (1.9.3 preferred)
+  This has only been tested on OS X 10.8.1.
+- The =algorithms= package. This can be installed like so from the project root:
+
+  #+begin_src sh
+    gem install bundler # you may need to prefix this with "sudo"
+
+    bundle install --binstubs .bin
+  #+end_src
+
+* Usage
+#+begin_src sh
+bundle exec bin/freecell INPUT-FILE
+#+end_src
+
+* Input Format
+Input lines correspond to the following rules:
+
+1. algorithm, specified as an integer code
+2. number of suits
+3. number of cards per suit, starting with A, 2, 3, ...
+4. number of cascades (columns)
+5. number of free cells
+6. output level (0 = steps, 1 = 0 + description of each step, 2 = 1 + cells at
+   each step)
+
+The remaining lines are the initial deal of the game. The lines are ordered as
+rightmost column (top row) to leftmost column (bottom row). The exposed card
+is the card at the right (i.e., the last one in each row).
+
+#+begin_src sh
+5S AD 7S QC AH 7C # rightmost column
+TD JC TC 5D 8H 6S
+4S 5H 3S QD 9H 3H
+8C 8S 7H 3D 4H 2D
+7D 4C 4D 6H AS JH KD
+TS 2H KS 9S KH QS 6C
+JS 2S 8D 9D TH JD 3C
+AC 2C 5C 9C QH 6D KC # leftmost column
+#+end_src
