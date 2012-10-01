@@ -12,8 +12,8 @@ module FreeCell
 
     def eql?(other)
       self.class.equal?(other.class) &&
-        @columns == other.columns &&
         @free_cells == other.free_cells &&
+        @columns == other.columns &&
         @foundations == other.foundations
     end
     alias_method :==, :eql?
