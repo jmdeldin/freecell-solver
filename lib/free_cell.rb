@@ -8,6 +8,7 @@ require 'set'
 %w(
 ext/array
 card
+state
 reader
 move
 column_to_column_move
