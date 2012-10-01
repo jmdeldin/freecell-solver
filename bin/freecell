@@ -1,0 +1,27 @@
+#! /usr/bin/env ruby
+$LOAD_PATH << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
+
+require 'free_cell'
+
+usage = <<EOF
+Usage: #{File.basename(__FILE__)} INPUT-FILE
+EOF
+
+abort usage unless ARGV.first
+
+reader  = FreeCell::Reader.new(File.open(ARGV.first))
+problem = FreeCell::Problem.new({
+  :columns         => reader.columns,
+  :num_foundations => reader.num_suits,
+  :num_free_cells  => reader.num_free,
+})
+
+klass = reader.algorithm.to_s.capitalize + 'Solver'
+
+solver = if klass == "AstarSolver" then
+           FreeCell::AstarSolver.new(problem)
+         else
+           FreeCell::const_get(klass).new(problem)
+         end
+
+solver.send(reader.verbosity)
