@@ -8,7 +8,7 @@ module FreeCell
                        :foundations => {:spades => [], :hearts => []} })
     end
 
-    subject(:move) { FreeToFoundationMove.new(problem, card) }
+    subject(:move) { FreeToFoundationMove.new(problem, card, 0) }
 
     context 'given an ace in a free cell and empty foundations' do
       let(:card) { Card.from_string('AH') }
