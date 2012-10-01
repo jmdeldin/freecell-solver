@@ -14,6 +14,7 @@ module FreeCell
         (y <=> x) == 1 # prefer smaller elts
       end
 
+
       frontier.push(g, @priority_func.call(g))
       marked = Set.new
       marked.add g.problem
@@ -44,6 +45,8 @@ module FreeCell
           end
         end
       end
+
+      STDERR.puts "!> No solution found <!"
     end
   end
 end

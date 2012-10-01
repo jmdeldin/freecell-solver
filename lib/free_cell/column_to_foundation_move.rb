@@ -19,11 +19,10 @@ module FreeCell
     end
 
     def execute
-      # remove free card from free cells
-      @problem.columns[@column_index[0]].delete_at @column_index[1]
+      c = @problem.columns[@column_index[0]].pop
 
       # insert into foundation
-      suit_foundation << @card
+      suit_foundation << c
 
       @executed = true
     end

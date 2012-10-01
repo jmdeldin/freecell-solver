@@ -16,10 +16,10 @@ module FreeCell
 
     def execute
       # remove exposed card from board
-      @problem.columns[@column_index[0]].delete_at @column_index[1]
+      c = @problem.columns[@column_index[0]].pop
 
       # replace free cell
-      @problem.free_cells[free_cell_index] = @card
+      @problem.free_cells[free_cell_index] = c
 
       @executed = true
     end
