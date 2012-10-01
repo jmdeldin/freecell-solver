@@ -16,12 +16,8 @@ problem = FreeCell::Problem.new({
   :num_free_cells  => reader.num_free,
 })
 
-if ARGV.any?
-  # override the algo
-  klass = ARGV.shift.capitalize + 'Solver'
-else
-  klass = reader.algorithm.to_s.capitalize + 'Solver'
-end
+algo = ARGV.any?? ARGV.shift : reader.algorithm.to_s
+klass = algo.capitalize + 'Solver'
 
 solver = if klass == "AstarSolver" then
            FreeCell::AstarSolver.new(problem)
@@ -29,4 +25,6 @@ solver = if klass == "AstarSolver" then
            FreeCell::const_get(klass).new(problem)
          end
 
-solver.send(reader.verbosity)
+# steps, descriptions, show_boards
+verbosity = ARGV.any?? ARGV.shift.to_sym : reader.verbosity
+solver.send(verbosity)
